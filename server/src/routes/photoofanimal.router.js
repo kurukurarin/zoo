@@ -1,48 +1,49 @@
-const { User } = require('../db/models');
+'use strict';
 
-class AuthService {
-  static async getUserByEmail(email) {
-    try {
-      const user = await User.findOne({
-        where: { email: email.toLowerCase() }
-      });
-      return user;
-    } catch (error) {
-      console.error('Ошибка поиска пользователя:', error);
-      throw error;
-    }
-  }
+const express = require('express');
+const router = express.Router({ mergeParams: true });
 
-  static async createUser(userData) {
-    try {
-      const user = await User.create({
-        username: userData.username,
-        email: userData.email.toLowerCase(),
-        password: userData.password,
-        role: userData.role || 'user'
-      });
+const PhotoController = require('../../controllers/photoController');
+const { verifyAccessToken, verifyAdmin } = require('../../middleware/authMiddleware');
 
-      const userWithoutPassword = user.toJSON();
-      delete userWithoutPassword.password;
 
-      return userWithoutPassword;
-    } catch (error) {
-      console.error('Ошибка создания пользователя:', error);
-      throw error;
-    }
-  }
+ // ФОТОГРАФИИ ROUTES
+ //Префикс: /animals/:animalId/photos
 
-  static async getUserById(id) {
-    try {
-      const user = await User.findByPk(id, {
-        attributes: { exclude: ['password'] }
-      });
-      return user;
-    } catch (error) {
-      console.error('Ошибка поиска пользователя по ID:', error);
-      throw error;
-    }
-  }
-}
+// Получить все фотографии животного 
+router.get('/', PhotoController.getPhotosByAnimal);
 
-module.exports = AuthService;
+// Добавить фотографию животному 
+router.post(
+  '/',
+  verifyAccessToken,
+  verifyAdmin,
+  PhotoController.createPhoto
+);
+
+// Переупорядочить все фотографии животного 
+router.put(
+  '/reorder',
+  verifyAccessToken,
+  verifyAdmin,
+  PhotoController.reorderPhotos
+);
+
+// Обновить порядок фотографии (только админ)
+// Примечание: этот маршрут должен быть ПОСЛЕ /reorder
+router.put(
+  '/:photoId',
+  verifyAccessToken,
+  verifyAdmin,
+  PhotoController.updatePhotoOrder
+);
+
+// Удалить фотографию (только админ)
+router.delete(
+  '/:photoId',
+  verifyAccessToken,
+  verifyAdmin,
+  PhotoController.deletePhoto
+);
+
+module.exports = router;
