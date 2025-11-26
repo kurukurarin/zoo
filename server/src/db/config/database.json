@@ -1,11 +1,10 @@
 {
   "development": {
-    "use_env_variable": "DATABASE_URL"
-  },
-  "test": {
-    "use_env_variable": "DATABASE_URL"
-  },
-  "production": {
-    "use_env_variable": "DATABASE_URL"
+    "username": "a111",
+    "password": "a111",
+    "database": "zoo_db",
+    "host": "127.0.0.1",
+    "port": 5432,
+    "dialect": "postgres"
   }
 }

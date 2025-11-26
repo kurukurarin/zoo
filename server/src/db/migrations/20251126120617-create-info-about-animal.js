@@ -9,8 +9,9 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      animal_id: {
-        type: Sequelize.BIGINT
+      animalId: {
+        type: Sequelize.BIGINT,
+        allowNull: false,
       },
       description: {
         type: Sequelize.TEXT

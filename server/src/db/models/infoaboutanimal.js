@@ -1,46 +1,63 @@
 'use strict';
-const {
-  Model
-} = require('sequelize');
+
+const { Model } = require('sequelize');
+
 module.exports = (sequelize, DataTypes) => {
   class InfoAboutAnimal extends Model {
     static associate(models) {
+      // Информация принадлежит одному животному
       this.belongsTo(models.Animal, {
-        foreignKey: 'animal_id'
+        foreignKey: 'animalId',
+        as: 'animal',
       });
     }
   }
-  InfoAboutAnimal.init({
-    id: {
+
+  InfoAboutAnimal.init(
+    {
+      id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: DataTypes.INTEGER
+        type: DataTypes.INTEGER,
       },
-      animal_id: {
-        type: DataTypes.BIGINT,
+      animalId: {
+        type: DataTypes.INTEGER, 
+        allowNull: false,
         references: {
-        model: { tableName: 'Animals' },
-        key: 'id'
-      }
+          model: 'Animals',
+          key: 'id',
+        },
+        onDelete: 'CASCADE', // удаляет инфо при удалении животного
+        comment: 'Ссылка на животное',
       },
       description: {
-        type: DataTypes.TEXT
+        type: DataTypes.TEXT,
+        allowNull: false,
+        comment: 'Дополнительное описание животного',
       },
       facts: {
-        type: DataTypes.TEXT
+        type: DataTypes.TEXT,
+        allowNull: false,
+        comment:
+          'Интересные факты о животном', 
       },
       createdAt: {
         allowNull: false,
-        type: DataTypes.DATE
+        type: DataTypes.DATE,
       },
       updatedAt: {
         allowNull: false,
-        type: DataTypes.DATE
-      }
-  }, {
-    sequelize,
-    modelName: 'InfoAboutAnimal',
-  });
+        type: DataTypes.DATE,
+      },
+    },
+    {
+      sequelize,
+      modelName: 'InfoAboutAnimal',
+      tableName: 'InfoAboutAnimals',
+      timestamps: true,
+    }
+  );
+
   return InfoAboutAnimal;
 };
