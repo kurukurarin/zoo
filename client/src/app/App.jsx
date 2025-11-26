@@ -1,21 +1,10 @@
 import { BrowserRouter, Routes, Route } from 'react-router';
 import { useEffect, useState } from 'react';
 import { axiosInstance, setAccessToken } from '../shared/lib/axiosInstance';
+import HomePage from '../pages/HomePage/HomePage'
 
 export default function App() {
   const [user, setUser] = useState(null)
-
-    //   function signOutUserHandler(event) {
-    //     event.preventDefault();
-
-    //     axiosInstance.delete('/auth/signOut')
-    //     .then(response => {
-    //         console.log(response, "<<<<")
-    //         setUser(null);
-    //         setAccessToken(null)
-    //     })
-    //     .catch(error => console.log(error));
-    //   }
 
   useEffect(() => {
     axiosInstance.get('/auth/refreshTokens')
@@ -28,7 +17,6 @@ export default function App() {
 
   return (
     <BrowserRouter>
-      <Nav user={user} signOut={signOutUserHandler}/>
       <Routes>
         <Route path="/" element={<HomePage />} />
       </Routes>
