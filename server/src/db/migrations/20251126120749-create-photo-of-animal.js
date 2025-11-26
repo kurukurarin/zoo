@@ -12,7 +12,7 @@ module.exports = {
       animal_id: {
         type: Sequelize.BIGINT
       },
-      description: {
+      photo_url: {
         type: Sequelize.STRING
       },
       createdAt: {
