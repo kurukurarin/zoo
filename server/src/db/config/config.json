@@ -1,0 +1,10 @@
+{
+  "development": {
+    "username": "a111",
+    "password": "a111",
+    "database": "zoo_db",
+    "host": "127.0.0.1",
+    "port": 5432,
+    "dialect": "postgres"
+  }
+}
