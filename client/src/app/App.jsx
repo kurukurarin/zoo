@@ -2,6 +2,8 @@ import { BrowserRouter, Routes, Route } from 'react-router';
 import { useEffect, useState } from 'react';
 import { axiosInstance, setAccessToken } from '../shared/lib/axiosInstance';
 import HomePage from '../pages/HomePage/HomePage'
+import React from 'react';
+import Layout from './Layout';
 
 export default function App() {
   const [user, setUser] = useState(null)
@@ -18,6 +20,7 @@ export default function App() {
   return (
     <BrowserRouter>
       <Routes>
+        <Route path="/" element={<Layout />}></Route>
         <Route path="/" element={<HomePage />} />
       </Routes>
     </BrowserRouter>
