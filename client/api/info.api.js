@@ -35,6 +35,7 @@ export default class InfoApi {
     }
   }
 
+  
   //Обновить информацию о животном (требуется авторизация)
    // animalId - ID животного
    // infoId - ID информации
