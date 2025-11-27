@@ -160,7 +160,7 @@ export default function LoginPage() {
               <p>
                 <strong>Тестовые учетные данные:</strong><br />
                 Email: admin@zoo.com<br />
-                Пароль: password123
+                Пароль: Admin123!!!
               </p>
             </div>
 
