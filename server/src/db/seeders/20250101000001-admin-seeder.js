@@ -14,7 +14,7 @@ module.exports = {
     
     // Хешируем пароли
     const hashedPassword1 = await bcrypt.hash('Admin123!!!', 10);
-    const hashedPassword2 = await bcrypt.hash('Admind456!!!', 10);
+    const hashedPassword2 = await bcrypt.hash('Admin456!!!', 10);
 
     await queryInterface.bulkInsert('AdminUsers', [
       {
