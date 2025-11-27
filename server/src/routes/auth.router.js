@@ -3,8 +3,8 @@
 const express = require('express');
 const router = express.Router();
 
-const AuthController = require('../../controllers/authController');
-const { verifyAccessToken } = require('../../middleware/authMiddleware');
+const AuthController = require('../controllers/auth.controller');
+const verifyAccessToken  = require('../middleware/verifyAccessToken');
 
 
 //АУТЕНТИФИКАЦИЯ ROUTES
@@ -19,7 +19,7 @@ router.post('/refresh', AuthController.refreshToken);
 router.post('/logout', AuthController.logout);
 
 // Получить информацию текущего администратора
-router.get('/me', verifyAccessToken, AuthController.getCurrentAdmin);
+router.get('/me', verifyAccessToken, AuthController.getCurrentAdmin); // проблема - не видит верифай ❌ 
 
 module.exports = router;
 

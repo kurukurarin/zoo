@@ -2,6 +2,7 @@
 
 const express = require('express');
 const router = express.Router();
+const formatResponse = require('../utils/formatResponse');
 
 // Импортируем все routes
 const authRouter = require('./auth.router');
@@ -18,7 +19,6 @@ const mainPageRouter = require('./mainPage.router');
 // app.use('/api', apiRouter);
 
 
-
 // АУТЕНТИФИКАЦИЯ
 
 router.use('/auth', authRouter);
@@ -27,21 +27,17 @@ router.use('/auth', authRouter);
 
 router.use('/animals', animalsRouter);
 
-
 // ФОТОГРАФИИ (вложены в животных: /animals/:animalId/photos)
 
 router.use('/animals/:animalId/photos', photosRouter);
-
 
 // ИНФОРМАЦИЯ О ЖИВОТНЫХ (вложена в животных: /animals/:animalId/info)
 
 router.use('/animals/:animalId/info', infoAboutAnimalsRouter);
 
-
 // ТАРИФЫ
 
 router.use('/tariffs', tariffsRouter);
-
 
 // ГЛАВНАЯ СТРАНИЦА
 
@@ -49,11 +45,10 @@ router.use('/main-page', mainPageRouter);
 
 // 404 - Маршрут не найден
 
-router.all('*', (req, res) => {
-  res.status(404).json({
-    success: false,
-    message: `Маршрут ${req.method} ${req.originalUrl} не найден`,
-  });
+router.use((req, res) => {
+  res.status(404).json(
+    formatResponse(404, `Маршрут ${req.method} ${req.originalUrl} не найден`, null, 'NOT_FOUND')
+  );
 });
 
 module.exports = router;

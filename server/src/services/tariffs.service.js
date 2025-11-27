@@ -1,6 +1,6 @@
 'use strict';
 
-const db = require('../models');
+const db = require('../db/models');
 const { Tariff, AdminUser } = db;
 
 //TariffService - Сервис для работы с тарифами

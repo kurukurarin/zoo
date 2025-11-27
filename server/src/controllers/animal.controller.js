@@ -1,6 +1,7 @@
 'use strict';
 
-const AnimalService = require('../services/animalservice');
+const formatResponse = require('../utils/formatResponse');
+const AnimalService = require('../services/animal.service');
 
 ///AnimalController - Контроллер для работы с животными
  //Обрабатывает HTTP запросы:
@@ -20,18 +21,17 @@ class AnimalController {
     try {
       const animals = await AnimalService.getAllAnimals();
 
-      return res.status(200).json({
-        success: true,
-        message: 'Животные успешно получены',
-        data: animals,
-        count: animals.length,
-      });
+       return res.status(200).json(
+        formatResponse(200, 'Животные успешно получены', {
+          animals,
+          count: animals.length,
+        })
+      );
     } catch (error) {
       console.error('❌ Ошибка в AnimalController.getAllAnimals:', error.message);
-      return res.status(500).json({
-        success: false,
-        message: error.message,
-      });
+      return res.status(500).json(
+        formatResponse(500, error.message, null, 'INTERNAL_SERVER_ERROR')
+      );
     }
   }
 
@@ -44,33 +44,28 @@ class AnimalController {
 
       // Валидация ID
       if (!id || isNaN(id)) {
-        return res.status(400).json({
-          success: false,
-          message: 'Некорректный ID животного',
-        });
+        return res.status(400).json(
+          formatResponse(400, 'Некорректный ID животного', null, 'VALIDATION_ERROR')
+        );
       }
 
       const animal = await AnimalService.getAnimalById(parseInt(id));
 
-      return res.status(200).json({
-        success: true,
-        message: 'Животное успешно получено',
-        data: animal,
-      });
+      return res.status(200).json(
+        formatResponse(200, 'Животное успешно получено', animal)
+      );
     } catch (error) {
       console.error('❌ Ошибка в AnimalController.getAnimalById:', error.message);
 
       if (error.message.includes('не найдено')) {
-        return res.status(404).json({
-          success: false,
-          message: error.message,
-        });
+        return res.status(404).json(
+          formatResponse(404, error.message, null, 'NOT_FOUND')
+        );
       }
 
-      return res.status(500).json({
-        success: false,
-        message: error.message,
-      });
+      return res.status(500).json(
+        formatResponse(500, error.message, null, 'INTERNAL_SERVER_ERROR')
+      );
     }
   }
 
@@ -83,16 +78,15 @@ class AnimalController {
    //  "mainPhotoUrl": "/images/lion.jpg" (опционально)
   // }
   
-  static async createAnimal(req, res) {
+    static async createAnimal(req, res) {
     try {
       const { name, feature, mainPhotoUrl } = req.body;
 
       // Валидация
       if (!name || !feature) {
-        return res.status(400).json({
-          success: false,
-          message: 'Название и описание животного обязательны',
-        });
+        return res.status(400).json(
+          formatResponse(400, 'Название и описание животного обязательны', null, 'VALIDATION_ERROR')
+        );
       }
 
       const animal = await AnimalService.createAnimal({
@@ -101,17 +95,14 @@ class AnimalController {
         mainPhotoUrl,
       });
 
-      return res.status(201).json({
-        success: true,
-        message: 'Животное успешно создано',
-        data: animal,
-      });
+      return res.status(201).json(
+        formatResponse(201, 'Животное успешно создано', animal)
+      );
     } catch (error) {
       console.error('❌ Ошибка в AnimalController.createAnimal:', error.message);
-      return res.status(500).json({
-        success: false,
-        message: error.message,
-      });
+      return res.status(500).json(
+        formatResponse(500, error.message, null, 'INTERNAL_SERVER_ERROR')
+      );
     }
   }
 
@@ -131,10 +122,9 @@ class AnimalController {
 
       // Валидация ID
       if (!id || isNaN(id)) {
-        return res.status(400).json({
-          success: false,
-          message: 'Некорректный ID животного',
-        });
+        return res.status(400).json(
+          formatResponse(400, 'Некорректный ID животного', null, 'VALIDATION_ERROR')
+        );
       }
 
       const animal = await AnimalService.updateAnimal(parseInt(id), {
@@ -143,25 +133,21 @@ class AnimalController {
         mainPhotoUrl,
       });
 
-      return res.status(200).json({
-        success: true,
-        message: 'Животное успешно обновлено',
-        data: animal,
-      });
+      return res.status(200).json(
+        formatResponse(200, 'Животное успешно обновлено', animal)
+      );
     } catch (error) {
       console.error('❌ Ошибка в AnimalController.updateAnimal:', error.message);
 
       if (error.message.includes('не найдено')) {
-        return res.status(404).json({
-          success: false,
-          message: error.message,
-        });
+        return res.status(404).json(
+          formatResponse(404, error.message, null, 'NOT_FOUND')
+        );
       }
 
-      return res.status(500).json({
-        success: false,
-        message: error.message,
-      });
+      return res.status(500).json(
+        formatResponse(500, error.message, null, 'INTERNAL_SERVER_ERROR')
+      );
     }
   }
 
@@ -174,34 +160,31 @@ class AnimalController {
 
       // Валидация ID
       if (!id || isNaN(id)) {
-        return res.status(400).json({
-          success: false,
-          message: 'Некорректный ID животного',
-        });
+        return res.status(400).json(
+          formatResponse(400, 'Некорректный ID животного', null, 'VALIDATION_ERROR')
+        );
       }
 
       const result = await AnimalService.deleteAnimal(parseInt(id));
 
-      return res.status(200).json({
-        success: true,
-        message: result.message,
-      });
+      return res.status(200).json(
+        formatResponse(200, result.message, null)
+      );
     } catch (error) {
       console.error('❌ Ошибка в AnimalController.deleteAnimal:', error.message);
 
       if (error.message.includes('не найдено')) {
-        return res.status(404).json({
-          success: false,
-          message: error.message,
-        });
+        return res.status(404).json(
+          formatResponse(404, error.message, null, 'NOT_FOUND')
+        );
       }
 
-      return res.status(500).json({
-        success: false,
-        message: error.message,
-      });
+      return res.status(500).json(
+        formatResponse(500, error.message, null, 'INTERNAL_SERVER_ERROR')
+      );
     }
   }
+
 
   // Поиск животного по названию
   //GET /api/animals/search/:name
@@ -211,27 +194,25 @@ class AnimalController {
       const { name } = req.params;
 
       // Валидация
-      if (!name || name.length < 2) {
-        return res.status(400).json({
-          success: false,
-          message: 'Введите название животного (минимум 2 символа)',
-        });
+   if (!name || name.length < 2) {
+        return res.status(400).json(
+          formatResponse(400, 'Введите название животного (минимум 2 символа)', null, 'VALIDATION_ERROR')
+        );
       }
 
       const animals = await AnimalService.searchAnimalByName(name);
 
-      return res.status(200).json({
-        success: true,
-        message: 'Поиск завершён',
-        data: animals,
-        count: animals.length,
-      });
+      return res.status(200).json(
+        formatResponse(200, 'Поиск завершён', {
+          animals,
+          count: animals.length,
+        })
+      );
     } catch (error) {
       console.error('❌ Ошибка в AnimalController.searchAnimal:', error.message);
-      return res.status(500).json({
-        success: false,
-        message: error.message,
-      });
+      return res.status(500).json(
+        formatResponse(500, error.message, null, 'INTERNAL_SERVER_ERROR')
+      );
     }
   }
 }

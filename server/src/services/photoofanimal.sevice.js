@@ -1,6 +1,6 @@
 'use strict';
 
-const db = require('../models');
+const db = require('../db/models');
 const { PhotoOfAnimal, Animal } = db;
 
 //PhotoService - Сервис для работы с фотографиями животных

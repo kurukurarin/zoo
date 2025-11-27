@@ -1,6 +1,6 @@
 'use strict';
 
-const db = require('../models');
+const db = require('../db/models');
 const { MainPage, AdminUser } = db;
 
 // MainPageService - Сервис для работы с главной страницей

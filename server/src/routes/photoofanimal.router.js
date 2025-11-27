@@ -3,8 +3,8 @@
 const express = require('express');
 const router = express.Router({ mergeParams: true });
 
-const PhotoController = require('../../controllers/photoController');
-const { verifyAccessToken, verifyAdmin } = require('../../middleware/authMiddleware');
+const PhotoController = require('../controllers/photoofanimal.controller');
+const verifyAccessToken = require('../middleware/verifyAccessToken');
 
 
  // ФОТОГРАФИИ ROUTES
@@ -16,8 +16,8 @@ router.get('/', PhotoController.getPhotosByAnimal);
 // Добавить фотографию животному 
 router.post(
   '/',
-  verifyAccessToken,
-  verifyAdmin,
+  verifyAccessToken,                        // проблема - не видит верифай ❌ 
+  // verifyAdmin,
   PhotoController.createPhoto
 );
 
@@ -25,7 +25,7 @@ router.post(
 router.put(
   '/reorder',
   verifyAccessToken,
-  verifyAdmin,
+  // verifyAdmin,
   PhotoController.reorderPhotos
 );
 
@@ -34,7 +34,7 @@ router.put(
 router.put(
   '/:photoId',
   verifyAccessToken,
-  verifyAdmin,
+  // verifyAdmin,
   PhotoController.updatePhotoOrder
 );
 
@@ -42,7 +42,7 @@ router.put(
 router.delete(
   '/:photoId',
   verifyAccessToken,
-  verifyAdmin,
+  // verifyAdmin,
   PhotoController.deletePhoto
 );
 

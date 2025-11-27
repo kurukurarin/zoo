@@ -1,6 +1,7 @@
 'use strict';
 
-const PhotoService = require('../services/photoService');
+const PhotoService = require('../services/photoofanimal.sevice');
+const formatResponse = require('../utils/formatResponse');
 
 //PhotoController - Контроллер для работы с фотографиями
  
@@ -21,34 +22,31 @@ class PhotoController {
 
       // Валидация
       if (!animalId || isNaN(animalId)) {
-        return res.status(400).json({
-          success: false,
-          message: 'Некорректный ID животного',
-        });
+        return res.status(400).json(
+          formatResponse(400, 'Некорректный ID животного', null, 'VALIDATION_ERROR')
+        );
       }
 
       const photos = await PhotoService.getPhotosByAnimalId(parseInt(animalId));
 
-      return res.status(200).json({
-        success: true,
-        message: 'Фотографии успешно получены',
-        data: photos,
-        count: photos.length,
-      });
+      return res.status(200).json(
+        formatResponse(200, 'Фотографии успешно получены', {
+          photos,
+          count: photos.length,
+        })
+      );
     } catch (error) {
       console.error('❌ Ошибка в PhotoController.getPhotosByAnimal:', error.message);
 
       if (error.message.includes('не найдено')) {
-        return res.status(404).json({
-          success: false,
-          message: error.message,
-        });
+        return res.status(404).json(
+          formatResponse(404, error.message, null, 'NOT_FOUND')
+        );
       }
 
-      return res.status(500).json({
-        success: false,
-        message: error.message,
-      });
+      return res.status(500).json(
+        formatResponse(500, error.message, null, 'INTERNAL_SERVER_ERROR')
+      );
     }
   }
 
@@ -66,19 +64,16 @@ class PhotoController {
       const { animalId } = req.params;
       const { photoUrl, order } = req.body;
 
-      // Валидация
       if (!animalId || isNaN(animalId)) {
-        return res.status(400).json({
-          success: false,
-          message: 'Некорректный ID животного',
-        });
+        return res.status(400).json(
+          formatResponse(400, 'Некорректный ID животного', null, 'VALIDATION_ERROR')
+        );
       }
 
       if (!photoUrl) {
-        return res.status(400).json({
-          success: false,
-          message: 'URL фотографии обязателен',
-        });
+        return res.status(400).json(
+          formatResponse(400, 'URL фотографии обязателен', null, 'VALIDATION_ERROR')
+        );
       }
 
       const photo = await PhotoService.createPhoto(parseInt(animalId), {
@@ -86,25 +81,21 @@ class PhotoController {
         order,
       });
 
-      return res.status(201).json({
-        success: true,
-        message: 'Фотография успешно добавлена',
-        data: photo,
-      });
+      return res.status(201).json(
+        formatResponse(201, 'Фотография успешно добавлена', photo)
+      );
     } catch (error) {
       console.error('❌ Ошибка в PhotoController.createPhoto:', error.message);
 
       if (error.message.includes('не найдено')) {
-        return res.status(404).json({
-          success: false,
-          message: error.message,
-        });
+        return res.status(404).json(
+          formatResponse(404, error.message, null, 'NOT_FOUND')
+        );
       }
 
-      return res.status(500).json({
-        success: false,
-        message: error.message,
-      });
+      return res.status(500).json(
+        formatResponse(500, error.message, null, 'INTERNAL_SERVER_ERROR')
+      );
     }
   }
 
@@ -121,42 +112,36 @@ class PhotoController {
       const { photoId } = req.params;
       const { order } = req.body;
 
-      // Валидация
+      //валидация
       if (!photoId || isNaN(photoId)) {
-        return res.status(400).json({
-          success: false,
-          message: 'Некорректный ID фотографии',
-        });
+        return res.status(400).json(
+          formatResponse(400, 'Некорректный ID фотографии', null, 'VALIDATION_ERROR')
+        );
       }
 
       if (!order || order < 1) {
-        return res.status(400).json({
-          success: false,
-          message: 'Порядок должен быть положительным числом',
-        });
+        return res.status(400).json(
+          formatResponse(400, 'Порядок должен быть положительным числом', null, 'VALIDATION_ERROR')
+        );
       }
 
       const photo = await PhotoService.updatePhotoOrder(parseInt(photoId), order);
 
-      return res.status(200).json({
-        success: true,
-        message: 'Порядок фотографии обновлён',
-        data: photo,
-      });
+      return res.status(200).json(
+        formatResponse(200, 'Порядок фотографии обновлён', photo)
+      );
     } catch (error) {
       console.error('❌ Ошибка в PhotoController.updatePhotoOrder:', error.message);
 
       if (error.message.includes('не найдена')) {
-        return res.status(404).json({
-          success: false,
-          message: error.message,
-        });
+        return res.status(404).json(
+          formatResponse(404, error.message, null, 'NOT_FOUND')
+        );
       }
 
-      return res.status(500).json({
-        success: false,
-        message: error.message,
-      });
+      return res.status(500).json(
+        formatResponse(500, error.message, null, 'INTERNAL_SERVER_ERROR')
+      );
     }
   }
 
@@ -167,36 +152,33 @@ class PhotoController {
     try {
       const { photoId } = req.params;
 
-      // Валидация
+      //валидация
       if (!photoId || isNaN(photoId)) {
-        return res.status(400).json({
-          success: false,
-          message: 'Некорректный ID фотографии',
-        });
+        return res.status(400).json(
+          formatResponse(400, 'Некорректный ID фотографии', null, 'VALIDATION_ERROR')
+        );
       }
 
       const result = await PhotoService.deletePhoto(parseInt(photoId));
 
-      return res.status(200).json({
-        success: true,
-        message: result.message,
-      });
+      return res.status(200).json(
+        formatResponse(200, result.message, null)
+      );
     } catch (error) {
       console.error('❌ Ошибка в PhotoController.deletePhoto:', error.message);
 
       if (error.message.includes('не найдена')) {
-        return res.status(404).json({
-          success: false,
-          message: error.message,
-        });
+        return res.status(404).json(
+          formatResponse(404, error.message, null, 'NOT_FOUND')
+        );
       }
 
-      return res.status(500).json({
-        success: false,
-        message: error.message,
-      });
+      return res.status(500).json(
+        formatResponse(500, error.message, null, 'INTERNAL_SERVER_ERROR')
+      );
     }
   }
+
 
   //Переупорядочить все фото животного
    //PUT /api/animals/:animalId/photos/reorder
@@ -205,28 +187,26 @@ class PhotoController {
     try {
       const { animalId } = req.params;
 
-      // Валидация
       if (!animalId || isNaN(animalId)) {
-        return res.status(400).json({
-          success: false,
-          message: 'Некорректный ID животного',
-        });
+        return res.status(400).json(
+          formatResponse(400, 'Некорректный ID животного', null, 'VALIDATION_ERROR')
+        );
       }
 
       const photos = await PhotoService.reorderPhotos(parseInt(animalId));
 
-      return res.status(200).json({
-        success: true,
-        message: 'Фотографии переупорядочены',
-        data: photos,
-      });
+      return res.status(200).json(
+        formatResponse(200, 'Фотографии переупорядочены', {
+          photos,
+          count: photos.length,
+        })
+      );
     } catch (error) {
       console.error('❌ Ошибка в PhotoController.reorderPhotos:', error.message);
 
-      return res.status(500).json({
-        success: false,
-        message: error.message,
-      });
+      return res.status(500).json(
+        formatResponse(500, error.message, null, 'INTERNAL_SERVER_ERROR')
+      );
     }
   }
 }

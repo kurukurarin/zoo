@@ -6,7 +6,8 @@
 
 'use strict';
 
-const TariffService = require('../services/tariffService');
+const TariffService = require('../services/tariffs.service');
+const formatResponse = require('../utils/formatResponse');
 
 //TariffController - Контроллер для работы с тарифами
  //Обрабатывает HTTP запросы:
@@ -15,24 +16,21 @@ const TariffService = require('../services/tariffService');
  
 
 class TariffController {
-  // Получить текущие тарифы
+  //Получить текущие тарифы
    //GET /api/tariffs
    //
-  static async getTariffs(req, res) {
+static async getTariffs(req, res) {
     try {
       const tariff = await TariffService.getTariffs();
 
-      return res.status(200).json({
-        success: true,
-        message: 'Тарифы успешно получены',
-        data: tariff,
-      });
+      return res.status(200).json(
+        formatResponse(200, 'Тарифы успешно получены', tariff)
+      );
     } catch (error) {
       console.error('❌ Ошибка в TariffController.getTariffs:', error.message);
-      return res.status(500).json({
-        success: false,
-        message: error.message,
-      });
+      return res.status(500).json(
+        formatResponse(500, error.message, null, 'INTERNAL_SERVER_ERROR')
+      );
     }
   }
 
@@ -55,10 +53,9 @@ class TariffController {
 
       // Валидация
       if (!tariff_weekdays && !tariff_weekend && !benefits && !conditions) {
-        return res.status(400).json({
-          success: false,
-          message: 'Передайте хотя бы одно поле для обновления',
-        });
+        return res.status(400).json(
+          formatResponse(400, 'Передайте хотя бы одно поле для обновления', null, 'VALIDATION_ERROR')
+        );
       }
 
       const tariff = await TariffService.updateTariffs(
@@ -71,20 +68,16 @@ class TariffController {
         adminId
       );
 
-      return res.status(200).json({
-        success: true,
-        message: 'Тарифы успешно обновлены',
-        data: tariff,
-      });
+      return res.status(200).json(
+        formatResponse(200, 'Тарифы успешно обновлены', tariff)
+      );
     } catch (error) {
       console.error('❌ Ошибка в TariffController.updateTariffs:', error.message);
-      return res.status(500).json({
-        success: false,
-        message: error.message,
-      });
+      return res.status(500).json(
+        formatResponse(500, error.message, null, 'INTERNAL_SERVER_ERROR')
+      );
     }
   }
-
   //Получить информацию об администраторе, который последний обновил тарифы
    //GET /api/tariffs/info/last-updated
    
@@ -92,17 +85,14 @@ class TariffController {
     try {
       const info = await TariffService.getLastUpdatedBy();
 
-      return res.status(200).json({
-        success: true,
-        message: 'Информация об обновлении получена',
-        data: info,
-      });
+      return res.status(200).json(
+        formatResponse(200, 'Информация об обновлении получена', info)
+      );
     } catch (error) {
       console.error('❌ Ошибка в TariffController.getLastUpdatedInfo:', error.message);
-      return res.status(500).json({
-        success: false,
-        message: error.message,
-      });
+      return res.status(500).json(
+        formatResponse(500, error.message, null, 'INTERNAL_SERVER_ERROR')
+      );
     }
   }
 }

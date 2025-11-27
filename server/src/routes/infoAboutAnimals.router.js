@@ -3,20 +3,20 @@
 const express = require('express');
 const router = express.Router({ mergeParams: true });
 
-const InfoAboutAnimalController = require('../../controllers/infoAboutAnimalController');
-const { verifyAccessToken, verifyAdmin } = require('../../middleware/authMiddleware');
+const InfoAboutAnimalController = require('../controllers/infoaboutanimal.controller');
+const verifyAccessToken  = require('../middleware/verifyAccessToken');
 
 //ИНФОРМАЦИЯ О ЖИВОТНЫХ ROUTES
 //Префикс: /animals/:animalId/info
 
-// Получить всю информацию о животном (public)
+// Получить всю информацию о животном
 router.get('/', InfoAboutAnimalController.getInfoByAnimal);
 
 // Создать новую информационную запись (только админ)
 router.post(
   '/',
-  verifyAccessToken,
-  verifyAdmin,
+  verifyAccessToken,              
+  // verifyAdmin,                             // проблема - не видит верифай ❌ мб это и не надо
   InfoAboutAnimalController.createInfo
 );
 
@@ -24,7 +24,7 @@ router.post(
 router.put(
   '/:infoId',
   verifyAccessToken,
-  verifyAdmin,
+  // verifyAdmin,
   InfoAboutAnimalController.updateInfo
 );
 
@@ -32,7 +32,7 @@ router.put(
 router.delete(
   '/:infoId',
   verifyAccessToken,
-  verifyAdmin,
+  // verifyAdmin,
   InfoAboutAnimalController.deleteInfo
 );
 

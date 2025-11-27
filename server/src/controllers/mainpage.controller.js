@@ -6,7 +6,9 @@
 
 'use strict';
 
-const MainPageService = require('../services/mainPageService');
+const MainPageService = require('../services/mainpage.service');
+const formatResponse = require('../utils/formatResponse');
+
 
 //MainPageController - Контроллер для работы с главной страницей
  
@@ -19,21 +21,18 @@ class MainPageController {
   //Получить информацию главной страницы
 // GET /api/main-page
    
-  static async getMainPage(req, res) {
+ static async getMainPage(req, res) {
     try {
       const mainPage = await MainPageService.getMainPage();
 
-      return res.status(200).json({
-        success: true,
-        message: 'Информация главной страницы получена',
-        data: mainPage,
-      });
+      return res.status(200).json(
+        formatResponse(200, 'Информация главной страницы получена', mainPage)
+      );
     } catch (error) {
       console.error('❌ Ошибка в MainPageController.getMainPage:', error.message);
-      return res.status(500).json({
-        success: false,
-        message: error.message,
-      });
+      return res.status(500).json(
+        formatResponse(500, error.message, null, 'INTERNAL_SERVER_ERROR')
+      );
     }
   }
 
@@ -49,14 +48,13 @@ class MainPageController {
   static async updateMainPage(req, res) {
     try {
       const { info, contacts } = req.body;
-      const adminId = req.user.id; // ID админа из JWT токена
+      const adminId = req.user.id; // id админа из jwt
 
-      // Валидация
+      //валидаиця
       if (!info && !contacts) {
-        return res.status(400).json({
-          success: false,
-          message: 'Передайте хотя бы одно поле для обновления',
-        });
+        return res.status(400).json(
+          formatResponse(400, 'Передайте хотя бы одно поле для обновления', null, 'VALIDATION_ERROR')
+        );
       }
 
       const mainPage = await MainPageService.updateMainPage(
@@ -64,40 +62,35 @@ class MainPageController {
         adminId
       );
 
-      return res.status(200).json({
-        success: true,
-        message: 'Главная страница успешно обновлена',
-        data: mainPage,
-      });
+      return res.status(200).json(
+        formatResponse(200, 'Главная страница успешно обновлена', mainPage)
+      );
     } catch (error) {
       console.error('❌ Ошибка в MainPageController.updateMainPage:', error.message);
-      return res.status(500).json({
-        success: false,
-        message: error.message,
-      });
+      return res.status(500).json(
+        formatResponse(500, error.message, null, 'INTERNAL_SERVER_ERROR')
+      );
     }
   }
 
   //Получить информацию об администраторе, который последний обновил страницу
    //GET /api/main-page/info/last-updated
    
-  static async getLastUpdatedInfo(req, res) {
+   static async getLastUpdatedInfo(req, res) {
     try {
       const info = await MainPageService.getLastUpdatedBy();
 
-      return res.status(200).json({
-        success: true,
-        message: 'Информация об обновлении получена',
-        data: info,
-      });
+      return res.status(200).json(
+        formatResponse(200, 'Информация об обновлении получена', info)
+      );
     } catch (error) {
       console.error('❌ Ошибка в MainPageController.getLastUpdatedInfo:', error.message);
-      return res.status(500).json({
-        success: false,
-        message: error.message,
-      });
+      return res.status(500).json(
+        formatResponse(500, error.message, null, 'INTERNAL_SERVER_ERROR')
+      );
     }
   }
 }
+
 
 module.exports = MainPageController;
