@@ -5,7 +5,7 @@ export default function Nav() {
     return (
             <div id="header-wrapper">
 		        <div id="header" className="container">
-                        <NavLink to="/"><h1 id="logo">Главная</h1></NavLink>
+                        <h1 id="logo"><NavLink to="/">Главная</NavLink></h1>
                     <nav id="nav">
                         <ul>
                             <li><NavLink to="/animals">Наши зверушки</NavLink></li>
