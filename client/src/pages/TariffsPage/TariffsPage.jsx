@@ -3,9 +3,7 @@ import { Link } from "react-router";
 import { useApi } from '../../hooks/useApi'
 
 export default function AnimalsPage() {
-    const { data: animals} = useApi('api/animals') // << !! мб переделать сслыку
-
-    if (loading)
+    const { data: tariffs} = useApi('api/tariffs') // << !! мб переделать сслыку
 
     return (
         <div>

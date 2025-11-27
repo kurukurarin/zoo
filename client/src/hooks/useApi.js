@@ -1,5 +1,9 @@
 import { useState, useEffect } from 'react';
 
+// способ вызова:
+// const { data } = useApi('/api/[сслылка на роут в сервере]')
+// делает fetch запросы для взятия данных из БД в клиент
+
 export const useApi = (url) => {
     const [data, setData] = useState({});
 
