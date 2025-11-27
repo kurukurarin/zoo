@@ -1,15 +1,13 @@
 // API для животных
 // CRUD операции для животных
 
-
-import { axiosInstance } from '../src/shared/lib/axiosInstance';
+import { axiosInstance } from "../shared/lib/axiosInstance";
 
 export default class AnimalApi {
-
   // Получить всех животных (массив животных)
   static async getAll() {
     try {
-      const { data } = await axiosInstance.get('/animals');
+      const { data } = await axiosInstance.get("/animals");
       return data.data.animals;
     } catch (error) {
       throw error.response?.data || error;
@@ -17,7 +15,7 @@ export default class AnimalApi {
   }
 
   // Получить животное по ID
- 
+
   static async getById(id) {
     try {
       const { data } = await axiosInstance.get(`/animals/${id}`);
@@ -28,7 +26,7 @@ export default class AnimalApi {
   }
 
   //Поиск животного по названию
-   
+
   static async search(name) {
     try {
       const { data } = await axiosInstance.get(`/animals/search/${name}`);
@@ -42,7 +40,7 @@ export default class AnimalApi {
   // animalData - { name, feature, mainPhotoUrl }
   static async create(animalData) {
     try {
-      const { data } = await axiosInstance.post('/animals', animalData);
+      const { data } = await axiosInstance.post("/animals", animalData);
       return data.data;
     } catch (error) {
       throw error.response?.data || error;
@@ -52,7 +50,7 @@ export default class AnimalApi {
   // Обновить животное (требуется авторизация)
   // id - ID животного
   //  animalData - { name, feature, mainPhotoUrl }
- 
+
   static async update(id, animalData) {
     try {
       const { data } = await axiosInstance.put(`/animals/${id}`, animalData);
@@ -63,7 +61,7 @@ export default class AnimalApi {
   }
 
   // Удалить животное (требуется авторизация)
-  
+
   static async delete(id) {
     try {
       const { data } = await axiosInstance.delete(`/animals/${id}`);
