@@ -1,15 +1,13 @@
- //AuthApi - API для аутентификации
- //Логин, выход, обновление токена
+//AuthApi - API для аутентификации
+//Логин, выход, обновление токена
 
-
-import { axiosInstance, setAccessToken } from '../src/shared/lib/axiosInstance';
+import { axiosInstance, setAccessToken } from "../shared/lib/axiosInstance";
 
 export default class AuthApi {
-
   // Логин администратора
   static async login(email, password) {
     try {
-      const { data } = await axiosInstance.post('/auth/login', {
+      const { data } = await axiosInstance.post("/auth/login", {
         email,
         password,
       });
@@ -24,10 +22,10 @@ export default class AuthApi {
   }
 
   // Обновить access token
-  
+
   static async refreshToken() {
     try {
-      const { data } = await axiosInstance.post('/auth/refresh');
+      const { data } = await axiosInstance.post("/auth/refresh");
 
       // Сохраняем новый токен
       setAccessToken(data.data.accessToken);
@@ -42,7 +40,7 @@ export default class AuthApi {
 
   static async getCurrentAdmin() {
     try {
-      const { data } = await axiosInstance.get('/auth/me');
+      const { data } = await axiosInstance.get("/auth/me");
       return data.data; // { id, email, role, isActive, ... }
     } catch (error) {
       throw error.response?.data || error;
@@ -50,10 +48,10 @@ export default class AuthApi {
   }
 
   //Логаут администратора
-  
+
   static async logout() {
     try {
-      const { data } = await axiosInstance.post('/auth/logout');
+      const { data } = await axiosInstance.post("/auth/logout");
 
       // Удаляем токен
       setAccessToken(null);

@@ -11,7 +11,7 @@ function verifyRefreshToken(req, res, next) {
       );
     }
 
-    const decoded = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET);
+    const decoded = jwt.verify(refreshToken, process.env.REFRESH_ACCESS_TOKEN);
     res.locals.user = decoded.user;
 
     next();

@@ -1,16 +1,14 @@
 //API для тарифов
- //Получение и обновление тарифов на посещение
- 
+//Получение и обновление тарифов на посещение
 
-import { axiosInstance } from '../src/shared/lib/axiosInstance';
+import { axiosInstance } from "../shared/lib/axiosInstance";
 
 export default class TariffApi {
-
   //Получить текущие тарифы
   //{ id, tariff_weekdays, tariff_weekend, benefits, conditions, ... }
   static async get() {
     try {
-      const { data } = await axiosInstance.get('/tariffs');
+      const { data } = await axiosInstance.get("/tariffs");
       return data.data;
     } catch (error) {
       throw error.response?.data || error;
@@ -22,7 +20,7 @@ export default class TariffApi {
 
   static async update(tariffData) {
     try {
-      const { data } = await axiosInstance.put('/tariffs', tariffData);
+      const { data } = await axiosInstance.put("/tariffs", tariffData);
       return data.data;
     } catch (error) {
       throw error.response?.data || error;
@@ -34,9 +32,7 @@ export default class TariffApi {
 
   static async getLastUpdatedInfo() {
     try {
-      const { data } = await axiosInstance.get(
-        '/tariffs/info/last-updated'
-      );
+      const { data } = await axiosInstance.get("/tariffs/info/last-updated");
       return data.data;
     } catch (error) {
       throw error.response?.data || error;
