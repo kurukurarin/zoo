@@ -1,30 +1,11 @@
-// import { useEffect, useState } from "react";
-// import { Link } from "react-router";
-// import { useApi } from '../../hooks/useApi'
-
-// export default function AnimalsPage() {
-//     const { data: animals} = useApi('api/animals') // << !! мб переделать сслыку
-
-//     if (loading)
-
-//     return (
-//         <div>
-            
-//         </div>
-//     )
-// }
-
-
-
-
-
-
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { AnimalApi } from '../../api';
+import { PhotoApi } from '../../api';
 
 export default function AnimalsPage() {
   const [animals, setAnimals] = useState([]);
+  const [photos, setPhotos] = useState([]);
   const [filteredAnimals, setFilteredAnimals] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [loading, setLoading] = useState(true);
@@ -36,6 +17,14 @@ export default function AnimalsPage() {
       .then(animals => {
         setAnimals(animals);
         setFilteredAnimals(animals);
+
+        // const animalArr = animals.map(animal => animal.id)
+
+        // return PhotoApi.getByAnimalId()
+        // .then(photos => {
+        //   photos.filter(photo => photo.order === 1);
+        //   setPhotos(photos)
+        // })
       })
       .catch(err => {
         console.error('Ошибка при загрузке животных:', err);
@@ -149,7 +138,7 @@ export default function AnimalsPage() {
                   <section key={animal.id} className="col-4 col-12-narrower feature">
                     <div className="image-wrapper">
                       <img
-                        src={animal.mainPhotoUrl || '/images/pic03.jpg'}
+                        src={'https://i.pinimg.com/736x/62/0b/01/620b01827c2678c4cc3876afaa0d7b59.jpg'}
                         alt={animal.name}
                         style={{
                           width: '100%',
