@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Layout from './Layout';
+import React from 'react';
 
 // Гостевые страницы
 import HomePage from '../pages/HomePage/HomePage';

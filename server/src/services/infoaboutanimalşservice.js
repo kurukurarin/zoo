@@ -1,5 +1,3 @@
-'use strict';
-
 const db = require('../db/models');
 const { InfoAboutAnimal, Animal } = db;
 

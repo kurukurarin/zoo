@@ -1,12 +1,3 @@
-// import { Link } from "react-router";
-
-// export default function AnimalDetailsPage() {
-    
-// }
-
-
-
-
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { AnimalApi, PhotoApi, InfoApi } from '../../api';
