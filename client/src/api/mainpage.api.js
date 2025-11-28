@@ -27,7 +27,7 @@ export default class MainPageApi {
     }
   }
 
-  //Получить информацию об последнем обновлении главной страницы
+  //Получить информацию об последнем обновлении главной страницы (для админа)
   // { updatedBy, updatedAt }
 
   static async getLastUpdatedInfo() {
