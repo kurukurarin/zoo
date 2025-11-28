@@ -22,7 +22,7 @@ module.exports = {
         type: Sequelize.TEXT,
       },
       updatedBy: {
-        type: Sequelize.TEXT,
+        type: Sequelize.INTEGER,
         allowNull: false,
 
       },
