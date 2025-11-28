@@ -1,18 +1,14 @@
 //API для информации о животных
- //Описание и интересные факты о животных
+//Описание и интересные факты о животных
 
-
-import { axiosInstance } from '../src/shared/lib/axiosInstance';
+import { axiosInstance } from "../shared/lib/axiosInstance";
 
 export default class InfoApi {
-  
   //Получить информацию о животном
- 
+
   static async getByAnimalId(animalId) {
     try {
-      const { data } = await axiosInstance.get(
-        `/animals/${animalId}/info`
-      );
+      const { data } = await axiosInstance.get(`/animals/${animalId}/info`);
       return data.data.info;
     } catch (error) {
       throw error.response?.data || error;
@@ -20,9 +16,9 @@ export default class InfoApi {
   }
 
   //Создать информацию о животном (требуется авторизация)
-   // animalId - ID животного
-   // infoData - { description, facts }
-  
+  // animalId - ID животного
+  // infoData - { description, facts }
+
   static async create(animalId, infoData) {
     try {
       const { data } = await axiosInstance.post(
@@ -36,10 +32,10 @@ export default class InfoApi {
   }
 
   //Обновить информацию о животном (требуется авторизация)
-   // animalId - ID животного
-   // infoId - ID информации
-   // infoData - { description, facts }
- 
+  // animalId - ID животного
+  // infoId - ID информации
+  // infoData - { description, facts }
+
   static async update(animalId, infoId, infoData) {
     try {
       const { data } = await axiosInstance.put(
@@ -55,7 +51,7 @@ export default class InfoApi {
   //Удалить информацию о животном (требуется авторизация)
   //animalId - ID животного
   //infoId - ID информации
- 
+
   static async delete(animalId, infoId) {
     try {
       const { data } = await axiosInstance.delete(
