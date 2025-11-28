@@ -53,7 +53,7 @@ const syncDatabase = async () => {
     process.exit(1); // Завершаем процесс при ошибке
   }
 };
-
+//
 // Вызываем синхронизацию при старте сервера
 syncDatabase();
 
