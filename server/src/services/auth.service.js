@@ -124,7 +124,7 @@ class AuthService {
 
       const decoded = jwt.verify(
         token,
-        process.env.JWT_SECRET || 'your-secret-key-change-in-env'
+        process.env.SECRET_ACCESS_TOKEN  || 'your_super_secret_access_token_key_here'
       );
 
       return decoded;
@@ -148,7 +148,8 @@ class AuthService {
       // Проверяем refresh токен
       const decoded = jwt.verify(
         refreshToken,
-        process.env.JWT_REFRESH_SECRET || 'your-refresh-secret-key-change-in-env'
+
+        process.env.SECRET_REFRESH_TOKEN || 'your_super_secret_refresh_token_key_here'
       );
 
       // Получаем администратора по ID из токена
@@ -165,7 +166,7 @@ class AuthService {
           email: admin.email,
           role: admin.role,
         },
-        process.env.JWT_SECRET || 'your-secret-key-change-in-env',
+        process.env.SECRET_ACCESS_TOKEN  || 'your_super_secret_access_token_key_here',
         { expiresIn: '24h' }
       );
 

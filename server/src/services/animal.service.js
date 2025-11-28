@@ -9,6 +9,7 @@ const { Animal, PhotoOfAnimal, InfoAboutAnimal } = db;
 // - Создание животного
 // - Обновление животного
 // - Удаление животного
+// - поиск животного  
 
 
 class AnimalService {
