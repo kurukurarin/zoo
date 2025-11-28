@@ -97,7 +97,7 @@ export default function AnimalDetailsPage() {
               />
             ) : animal.mainPhotoUrl ? (
               <img
-                src={animal.mainPhotoUrl}
+                src={animal.photoUrl}
                 alt={animal.name}
                 className="image featured"
                 style={{ maxHeight: '400px', objectFit: 'cover' }}
